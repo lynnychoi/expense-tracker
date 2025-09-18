@@ -98,7 +98,7 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
         .select(`
           *,
           tags:transaction_tags(id, tag_name, created_at),
-          user:users(id, name, email)
+          created_by_user:users!transactions_created_by_fkey(id, name, email)
         `)
         .eq('household_id', currentHousehold.id)
         .order('date', { ascending: false })

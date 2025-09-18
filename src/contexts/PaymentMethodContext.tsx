@@ -88,6 +88,8 @@ export function PaymentMethodProvider({ children }: { children: React.ReactNode 
 
       if (error) {
         console.error('Error loading payment methods:', error)
+        // If tables don't exist yet, just set empty array
+        setPaymentMethods([])
       } else {
         setPaymentMethods(data || [])
       }

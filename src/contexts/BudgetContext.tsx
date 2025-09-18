@@ -178,6 +178,8 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
 
     if (error) {
       console.error('Error loading budget categories:', error)
+      // If tables don't exist yet, just set empty array
+      setBudgetCategories([])
     } else {
       setBudgetCategories(data || [])
     }
@@ -198,6 +200,8 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
 
     if (error) {
       console.error('Error loading budgets:', error)
+      // If tables don't exist yet, just set empty array
+      setBudgets([])
     } else {
       setBudgets(data || [])
     }
@@ -215,6 +219,8 @@ export function BudgetProvider({ children }: { children: React.ReactNode }) {
 
     if (error) {
       console.error('Error loading budget goals:', error)
+      // If tables don't exist yet, just set empty array
+      setBudgetGoals([])
     } else {
       setBudgetGoals(data || [])
     }
