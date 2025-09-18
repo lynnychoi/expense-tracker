@@ -131,8 +131,8 @@ export default function SettingsPage() {
                     <div className="space-y-2">
                       {householdMembers.map((member) => (
                         <div key={member.id} className="flex items-center justify-between p-2 border rounded">
-                          <span className="text-sm">{member.name}</span>
-                          <span className="text-xs text-gray-500">{member.role}</span>
+                          <span className="text-sm">{member.user?.name || member.user?.email || '알 수 없는 사용자'}</span>
+                          <span className="text-xs text-gray-500">구성원</span>
                         </div>
                       ))}
                     </div>
