@@ -79,7 +79,7 @@ export function HouseholdProvider({ children }: { children: React.ReactNode }) {
       console.log('📋 HouseholdContext: Direct member query:', { memberData, memberError })
 
       // Try a different approach - fetch households directly if member check fails
-      if (memberData.length === 0) {
+      if (!memberData || memberData.length === 0) {
         console.log('⚠️ HouseholdContext: No members found, trying households direct query...')
         const { data: householdData, error: householdError } = await supabase
           .from('households')
@@ -120,7 +120,7 @@ export function HouseholdProvider({ children }: { children: React.ReactNode }) {
               const households = serviceHouseholds.map(item => item.households).filter(Boolean) as unknown as Household[]
               console.log('✅ HouseholdContext: Found households via service role!')
               setHouseholds(households)
-              setCurrentHousehold(households[0])
+              setCurrentHousehold(households[0] || null)
               console.log('✅ HouseholdContext: Set households from service role, count:', households.length)
               setLoading(false)
               return
@@ -312,6 +312,7 @@ export function HouseholdProvider({ children }: { children: React.ReactNode }) {
       console.log('⚡ HouseholdContext: Setting current household immediately')
       setHouseholds([household])
       setCurrentHousehold(household)
+      setLoading(false) // Ensure loading is false to enable dashboard navigation
       
       // Try to reload in background but don't wait for it
       loadHouseholds().catch(err => {
