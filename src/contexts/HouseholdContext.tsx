@@ -28,9 +28,12 @@ export function HouseholdProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
+    console.log('🏠 HouseholdContext: User changed:', !!user)
     if (user) {
+      console.log('🔄 HouseholdContext: Loading households for user...')
       loadHouseholds()
     } else {
+      console.log('🔄 HouseholdContext: Clearing households (no user)')
       setHouseholds([])
       setCurrentHousehold(null)
       setHouseholdMembers([])

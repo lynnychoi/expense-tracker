@@ -23,12 +23,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    console.log('🔄 AuthContext: Initializing auth state...')
+    
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log('🔍 AuthContext: Initial session:', !!session?.user)
       setUser(session?.user ?? null)
       if (session?.user) {
+        console.log('🔄 AuthContext: Loading user profile...')
         loadUserProfile(session.user.id)
+      } else {
+        console.log('✅ AuthContext: No session, setting loading to false')
+        setLoading(false)
       }
+    }).catch(error => {
+      console.error('❌ AuthContext: Error getting session:', error)
       setLoading(false)
     })
 
@@ -36,8 +45,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('🔄 AuthContext: Auth state changed:', event, !!session?.user)
       setUser(session?.user ?? null)
       if (session?.user) {
+        console.log('🔄 AuthContext: Loading user profile after auth change...')
         await loadUserProfile(session.user.id)
       } else {
         setUserProfile(null)
@@ -50,6 +61,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loadUserProfile = async (userId: string) => {
     try {
+      console.log('🔍 AuthContext: Loading profile for user:', userId)
       const { data, error } = await supabase
         .from('users')
         .select('*')
@@ -57,13 +69,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .single()
 
       if (error) {
-        console.error('Error loading user profile:', error)
+        console.error('❌ AuthContext: Error loading user profile:', error)
+        setLoading(false) // Ensure loading is set to false even on error
         return
       }
 
+      console.log('✅ AuthContext: User profile loaded:', !!data)
       setUserProfile(data)
+      setLoading(false) // Ensure loading is set to false after successful load
     } catch (error) {
-      console.error('Error loading user profile:', error)
+      console.error('❌ AuthContext: Error loading user profile:', error)
+      setLoading(false) // Ensure loading is set to false even on error
     }
   }
 
@@ -76,6 +92,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           data: {
             name,
           },
+          emailRedirectTo: undefined, // Disable email confirmation for development
         },
       })
 
@@ -83,7 +100,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return { error: error.message }
       }
 
-      // User profile is now automatically created by database trigger
+      // If user is immediately available (no email confirmation required), load profile
+      if (data.user && !data.user.email_confirmed_at) {
+        // For development: automatically confirm email to skip verification
+        try {
+          // Note: This approach requires adjusting Supabase settings
+          // For now, let's try to sign in immediately after signup
+          const { error: signInError } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          })
+          
+          if (signInError) {
+            return { error: 'Signup successful but auto-login failed. Please try logging in manually.' }
+          }
+        } catch (signInError) {
+          return { error: 'Signup successful but auto-login failed. Please try logging in manually.' }
+        }
+      }
 
       return {}
     } catch (error) {

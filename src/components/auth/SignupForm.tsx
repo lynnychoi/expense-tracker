@@ -44,11 +44,12 @@ export function SignupForm({ onToggleMode }: SignupFormProps) {
     
     if (error) {
       setError(error)
+      setLoading(false)
     } else {
-      setSuccess(true)
+      // Don't set success state - let AuthContext handle the redirect
+      // The user should be automatically logged in and redirected
+      setLoading(false)
     }
-    
-    setLoading(false)
   }
 
   if (success) {
