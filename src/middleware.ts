@@ -6,9 +6,18 @@ export async function middleware(request: NextRequest) {
     request,
   })
 
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  // Skip middleware if Supabase environment variables are not available
+  if (!supabaseUrl || !supabaseAnonKey) {
+    console.warn('Supabase environment variables not found in middleware, skipping auth')
+    return supabaseResponse
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -29,8 +38,12 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  // Refreshing the auth token
-  await supabase.auth.getUser()
+  try {
+    // Refreshing the auth token
+    await supabase.auth.getUser()
+  } catch (error) {
+    console.warn('Error in middleware auth check:', error)
+  }
 
   return supabaseResponse
 }
