@@ -1,5 +1,7 @@
 'use client'
 
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useBudget } from '@/contexts/BudgetContext'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Progress } from '@/components/ui/progress'
@@ -9,6 +11,7 @@ import { TrendingUp, TrendingDown, AlertTriangle, CheckCircle, Plus } from 'luci
 import { formatKRW } from '@/lib/currency'
 
 export function BudgetOverview() {
+  const router = useRouter()
   const { getCurrentMonthBudgets, budgetGoals } = useBudget()
   
   const currentMonthBudgets = getCurrentMonthBudgets()
@@ -51,7 +54,7 @@ export function BudgetOverview() {
           {currentMonthBudgets.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <p className="mb-4">설정된 예산이 없습니다</p>
-              <Button>
+              <Button onClick={() => router.push('/budget')}>
                 <Plus className="w-4 h-4 mr-2" />
                 첫 예산 설정하기
               </Button>
@@ -108,7 +111,7 @@ export function BudgetOverview() {
           {activeGoals.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
               <p className="mb-4">설정된 목표가 없습니다</p>
-              <Button>
+              <Button onClick={() => router.push('/budget')}>
                 <Plus className="w-4 h-4 mr-2" />
                 첫 목표 설정하기
               </Button>

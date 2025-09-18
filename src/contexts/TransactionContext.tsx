@@ -54,6 +54,7 @@ interface TransactionContextType {
   updateTransaction: (id: string, data: Partial<CreateTransactionData>) => Promise<{ data?: Transaction; error?: string }>
   deleteTransaction: (id: string) => Promise<{ error?: string }>
   loadTransactions: () => Promise<void>
+  getUniqueTagNames: () => string[]
 }
 
 const TransactionContext = createContext<TransactionContextType | undefined>(undefined)
@@ -260,6 +261,18 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
     }
   }
 
+  const getUniqueTagNames = (): string[] => {
+    const tagSet = new Set<string>()
+    
+    transactions.forEach(transaction => {
+      transaction.tags.forEach(tag => {
+        tagSet.add(tag.tag_name)
+      })
+    })
+    
+    return Array.from(tagSet).sort()
+  }
+
   const value = {
     transactions,
     loading,
@@ -268,6 +281,7 @@ export function TransactionProvider({ children }: TransactionProviderProps) {
     updateTransaction,
     deleteTransaction,
     loadTransactions,
+    getUniqueTagNames,
   }
 
   return (

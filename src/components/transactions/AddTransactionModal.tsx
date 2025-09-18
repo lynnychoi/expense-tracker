@@ -34,7 +34,7 @@ interface AddTransactionModalProps {
 export function AddTransactionModal({ children, onTransactionAdded }: AddTransactionModalProps) {
   const { user } = useAuth()
   const { currentHousehold, householdMembers } = useHousehold()
-  const { createTransaction, transactions } = useTransactions()
+  const { createTransaction, transactions, getUniqueTagNames } = useTransactions()
   const { getAllPaymentMethods } = usePaymentMethods()
   
   const [open, setOpen] = useState(false)
@@ -329,7 +329,7 @@ export function AddTransactionModal({ children, onTransactionAdded }: AddTransac
           <TagAutocomplete
             value={tags}
             onChange={setTags}
-            existingTags={DEFAULT_KOREAN_TAGS.map(tag => tag.name)}
+            existingTags={[...DEFAULT_KOREAN_TAGS.map(tag => tag.name), ...getUniqueTagNames()]}
             disabled={loading}
             label="태그"
             placeholder="태그를 선택하거나 새로 만들어보세요"

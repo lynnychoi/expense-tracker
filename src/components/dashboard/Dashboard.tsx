@@ -11,7 +11,7 @@ import { getTagColor, getNextAvailableColor } from '@/lib/colors'
 
 export function Dashboard() {
   const { currentHousehold, householdMembers } = useHousehold()
-  const { transactions } = useTransactions()
+  const { transactions, loadTransactions } = useTransactions()
 
   // Calculate monthly stats
   const currentMonth = new Date()
@@ -135,7 +135,7 @@ export function Dashboard() {
               <p className="text-sm text-gray-600 mb-3">
                 수입이나 지출을 추가하여 가계부를 시작하세요
               </p>
-              <AddTransactionModal>
+              <AddTransactionModal onTransactionAdded={loadTransactions}>
                 <Button size="sm">
                   거래 추가
                 </Button>

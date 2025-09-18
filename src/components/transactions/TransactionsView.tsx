@@ -12,7 +12,7 @@ import { Plus, Search } from 'lucide-react'
 
 export function TransactionsView() {
   const { currentHousehold } = useHousehold()
-  const { transactions } = useTransactions()
+  const { transactions, loadTransactions } = useTransactions()
   const [filteredTransactions, setFilteredTransactions] = useState<Transaction[]>(transactions)
 
   if (!currentHousehold) {
@@ -40,7 +40,7 @@ export function TransactionsView() {
             {currentHousehold.name}의 모든 거래를 검색하고 관리하세요
           </p>
         </div>
-        <AddTransactionModal>
+        <AddTransactionModal onTransactionAdded={loadTransactions}>
           <Button>
             <Plus className="w-4 h-4 mr-2" />
             거래 추가
