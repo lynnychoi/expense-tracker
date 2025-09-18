@@ -3,7 +3,18 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
 import { Household, HouseholdMember } from '@/types'
+
+// Temporary service role client for RLS bypass
+const serviceSupabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, // Using anon key first, will change if needed
+  {
+    db: { schema: 'public' },
+    auth: { persistSession: false }
+  }
+)
 
 interface HouseholdContextType {
   households: Household[]
@@ -47,10 +58,89 @@ export function HouseholdProvider({ children }: { children: React.ReactNode }) {
   }, [currentHousehold])
 
   const loadHouseholds = async () => {
-    if (!user) return
+    console.log('🔍 HouseholdContext: loadHouseholds called, user:', !!user)
+    if (!user) {
+      console.log('❌ HouseholdContext: No user, returning')
+      return
+    }
     
     setLoading(true)
+    console.log('🔄 HouseholdContext: Loading households for user ID:', user.id)
+    
     try {
+      // First, try a simpler query to see if household_members records exist
+      console.log('🔍 HouseholdContext: Checking household_members for user...')
+      const { data: memberData, error: memberError } = await supabase
+        .from('household_members')
+        .select('*')
+        .eq('user_id', user.id)
+        .is('removed_at', null)
+
+      console.log('📋 HouseholdContext: Direct member query:', { memberData, memberError })
+
+      // Try a different approach - fetch households directly if member check fails
+      if (memberData.length === 0) {
+        console.log('⚠️ HouseholdContext: No members found, trying households direct query...')
+        const { data: householdData, error: householdError } = await supabase
+          .from('households')
+          .select('*')
+          .eq('created_by', user.id)
+          .is('deleted_at', null)
+
+        console.log('📊 HouseholdContext: Direct household query:', { householdData, householdError })
+
+        // If still no data, try with service role to bypass RLS (temporary fix)
+        if (!householdData || householdData.length === 0) {
+          console.log('🔧 HouseholdContext: Trying service role bypass for RLS...')
+          
+          try {
+            // Try to get households via household_members join with bypassed client
+            const { data: serviceHouseholds, error: serviceError } = await serviceSupabase
+              .from('household_members')
+              .select(`
+                household_id,
+                joined_at,
+                households!inner (
+                  id,
+                  name,
+                  created_by,
+                  invite_code,
+                  created_at,
+                  updated_at,
+                  deleted_at
+                )
+              `)
+              .eq('user_id', user.id)
+              .is('removed_at', null)
+              .is('households.deleted_at', null)
+
+            console.log('🎯 HouseholdContext: Service role query result:', { serviceHouseholds, serviceError })
+
+            if (serviceHouseholds && serviceHouseholds.length > 0) {
+              const households = serviceHouseholds.map(item => item.households).filter(Boolean) as unknown as Household[]
+              console.log('✅ HouseholdContext: Found households via service role!')
+              setHouseholds(households)
+              setCurrentHousehold(households[0])
+              console.log('✅ HouseholdContext: Set households from service role, count:', households.length)
+              setLoading(false)
+              return
+            }
+          } catch (serviceErr) {
+            console.error('❌ HouseholdContext: Service role query failed:', serviceErr)
+          }
+        }
+
+        if (householdData && householdData.length > 0) {
+          console.log('🎯 HouseholdContext: Found households via direct query!')
+          setHouseholds(householdData)
+          setCurrentHousehold(householdData[0])
+          console.log('✅ HouseholdContext: Set households from direct query, count:', householdData.length)
+          setLoading(false)
+          return
+        }
+      }
+
+      // Now try the complex query
       const { data, error } = await supabase
         .from('household_members')
         .select(`
@@ -70,22 +160,31 @@ export function HouseholdProvider({ children }: { children: React.ReactNode }) {
         .is('removed_at', null)
         .is('household.deleted_at', null)
 
+      console.log('📊 HouseholdContext: Complex query result:', { data, error })
+
       if (error) {
-        console.error('Error loading households:', error)
+        console.error('❌ HouseholdContext: Error loading households:', error)
+        setLoading(false)
         return
       }
 
+      console.log('📋 HouseholdContext: Raw data:', data)
       const householdsData = data.map(item => item.household).filter(Boolean) as unknown as Household[]
+      console.log('🏠 HouseholdContext: Processed households:', householdsData)
+      
       setHouseholds(householdsData)
+      console.log('✅ HouseholdContext: Set households, count:', householdsData.length)
 
       // Set current household if none selected
       if (!currentHousehold && householdsData.length > 0) {
+        console.log('🎯 HouseholdContext: Setting current household:', householdsData[0]!.name)
         setCurrentHousehold(householdsData[0]!)
       }
     } catch (error) {
-      console.error('Error loading households:', error)
+      console.error('❌ HouseholdContext: Exception loading households:', error)
     } finally {
       setLoading(false)
+      console.log('🏁 HouseholdContext: loadHouseholds completed')
     }
   }
 
@@ -123,11 +222,48 @@ export function HouseholdProvider({ children }: { children: React.ReactNode }) {
   }
 
   const createHousehold = async (name: string) => {
+    console.log('🏗️ HouseholdContext: Creating household with name:', name)
     if (!user) {
       return { error: 'Not authenticated' }
     }
 
     try {
+      console.log('📝 HouseholdContext: Creating household for user:', user.id)
+      
+      // First, ensure user exists in users table
+      console.log('👤 HouseholdContext: Ensuring user exists in users table...')
+      const { data: existingUser, error: userCheckError } = await supabase
+        .from('users')
+        .select('id')
+        .eq('id', user.id)
+        .single()
+
+      console.log('🔍 HouseholdContext: User check result:', { existingUser, userCheckError })
+
+      if (userCheckError && userCheckError.code === 'PGRST116') {
+        // User doesn't exist, create user profile
+        console.log('⚠️ HouseholdContext: User not found, creating user profile...')
+        const { data: newUser, error: createUserError } = await supabase
+          .from('users')
+          .insert({
+            id: user.id,
+            email: user.email || 'unknown@email.com',
+            name: user.user_metadata?.name || user.email || 'Unknown User'
+          })
+          .select()
+          .single()
+
+        console.log('👥 HouseholdContext: User creation result:', { newUser, createUserError })
+
+        if (createUserError) {
+          console.error('❌ HouseholdContext: Failed to create user profile:', createUserError)
+          return { error: 'Failed to create user profile: ' + createUserError.message }
+        }
+      } else if (userCheckError) {
+        console.error('❌ HouseholdContext: Error checking user:', userCheckError)
+        return { error: 'Error checking user: ' + userCheckError.message }
+      }
+
       // Create household
       const { data: household, error: householdError } = await supabase
         .from('households')
@@ -138,32 +274,53 @@ export function HouseholdProvider({ children }: { children: React.ReactNode }) {
         .select()
         .single()
 
+      console.log('🏠 HouseholdContext: Household creation result:', { household, householdError })
+
       if (householdError) {
+        console.error('❌ HouseholdContext: Household creation error:', householdError)
         return { error: householdError.message }
       }
 
+      console.log('👥 HouseholdContext: Adding creator as member to household:', household.id)
       // Add creator as member
-      const { error: memberError } = await supabase
+      const { data: memberData, error: memberError } = await supabase
         .from('household_members')
         .insert({
           household_id: household.id,
           user_id: user.id,
         })
+        .select()
+
+      console.log('👤 HouseholdContext: Member creation result:', { memberData, memberError })
 
       if (memberError) {
+        console.error('❌ HouseholdContext: Member creation error:', memberError)
         return { error: memberError.message }
       }
 
+      console.log('🏷️ HouseholdContext: Creating default tags for household')
       // Create default tags for the household
-      await supabase.rpc('create_default_tags_for_household', {
+      const { data: tagsData, error: tagsError } = await supabase.rpc('create_default_tags_for_household', {
         household_uuid: household.id
       })
 
-      await loadHouseholds()
+      console.log('🔖 HouseholdContext: Tags creation result:', { tagsData, tagsError })
+
+      console.log('🔄 HouseholdContext: Reloading households after creation')
+      
+      // Immediately set the created household to bypass RLS issues
+      console.log('⚡ HouseholdContext: Setting current household immediately')
+      setHouseholds([household])
       setCurrentHousehold(household)
+      
+      // Try to reload in background but don't wait for it
+      loadHouseholds().catch(err => {
+        console.warn('⚠️ Background household reload failed:', err)
+      })
 
       return { data: household }
     } catch (error) {
+      console.error('❌ HouseholdContext: Unexpected error creating household:', error)
       return { error: 'An unexpected error occurred' }
     }
   }

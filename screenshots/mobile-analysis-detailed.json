@@ -1,0 +1,65 @@
+{
+  "http://localhost:3002/transactions": {
+    "issues": [],
+    "pageWidth": 320,
+    "pageHeight": 568,
+    "bodyRect": {
+      "x": 0,
+      "y": 0,
+      "width": 320,
+      "height": 568,
+      "top": 0,
+      "right": 320,
+      "bottom": 568,
+      "left": 0
+    },
+    "url": "http://localhost:3002/transactions"
+  },
+  "http://localhost:3002/analytics": {
+    "url": "http://localhost:3002/analytics",
+    "issues": [
+      {
+        "type": "overlap"
+      },
+      {
+        "type": "overlap"
+      },
+      {
+        "type": "overlap"
+      },
+      {
+        "type": "overlap"
+      },
+      {
+        "type": "overlap"
+      }
+    ],
+    "hasOverlaps": true
+  },
+  "http://localhost:3002/budget": {
+    "url": "http://localhost:3002/budget",
+    "issues": [],
+    "hasOverlaps": false
+  },
+  "http://localhost:3002/settings": {
+    "url": "http://localhost:3002/settings",
+    "issues": [
+      {
+        "type": "overlap"
+      },
+      {
+        "type": "overlap"
+      },
+      {
+        "type": "overlap"
+      },
+      {
+        "type": "overlap"
+      },
+      {
+        "type": "overlap"
+      }
+    ],
+    "hasOverlaps": true
+  }
+}

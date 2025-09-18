@@ -1,0 +1,127 @@
+{
+  "timestamp": "2025-09-18T05:57:05.529Z",
+  "loginFlow": {
+    "tested": true,
+    "screenshots": 4
+  },
+  "modals": {
+    "tested": true,
+    "screenshots": 2
+  },
+  "toasts": {
+    "tested": true,
+    "screenshots": 1
+  },
+  "mobileUI": {
+    "iphone-se": {
+      "transactions": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      },
+      "analytics": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": true
+      },
+      "budget": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      }
+    },
+    "iphone-8": {
+      "transactions": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      },
+      "analytics": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": true
+      },
+      "budget": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      }
+    },
+    "iphone-x": {
+      "transactions": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      },
+      "analytics": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": true
+      },
+      "budget": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      }
+    },
+    "iphone-14": {
+      "transactions": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      },
+      "analytics": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      },
+      "budget": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      }
+    },
+    "android-small": {
+      "transactions": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      },
+      "analytics": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": true
+      },
+      "budget": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      }
+    },
+    "pixel-6": {
+      "transactions": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      },
+      "analytics": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      },
+      "budget": {
+        "hasHorizontalScroll": false,
+        "overlappingElements": true,
+        "textOverflow": false
+      }
+    }
+  },
+  "forms": {
+    "tested": true,
+    "screenshots": 2
+  },
+  "interactions": {
+    "tested": true,
+    "screenshots": 3
+  }
+}

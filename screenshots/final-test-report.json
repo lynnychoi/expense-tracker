@@ -1,0 +1,216 @@
+{
+  "timestamp": "2025-09-18T05:52:49.725Z",
+  "pages": {
+    "homepage": {
+      "title": "홈페이지",
+      "url": "/",
+      "viewports": {
+        "desktop-xl": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1920x1080",
+          "screenshot": "screenshots/homepage-desktop-xl-final.png"
+        },
+        "desktop": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1280x800",
+          "screenshot": "screenshots/homepage-desktop-final.png"
+        },
+        "tablet": {
+          "status": 200,
+          "success": true,
+          "category": "Tablet",
+          "resolution": "768x1024",
+          "screenshot": "screenshots/homepage-tablet-final.png"
+        },
+        "mobile": {
+          "status": 200,
+          "success": true,
+          "category": "Mobile",
+          "resolution": "375x812",
+          "screenshot": "screenshots/homepage-mobile-final.png"
+        }
+      }
+    },
+    "transactions": {
+      "title": "거래내역",
+      "url": "/transactions",
+      "viewports": {
+        "desktop-xl": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1920x1080",
+          "screenshot": "screenshots/transactions-desktop-xl-final.png"
+        },
+        "desktop": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1280x800",
+          "screenshot": "screenshots/transactions-desktop-final.png"
+        },
+        "tablet": {
+          "status": 200,
+          "success": true,
+          "category": "Tablet",
+          "resolution": "768x1024",
+          "screenshot": "screenshots/transactions-tablet-final.png"
+        },
+        "mobile": {
+          "status": 200,
+          "success": true,
+          "category": "Mobile",
+          "resolution": "375x812",
+          "screenshot": "screenshots/transactions-mobile-final.png"
+        }
+      }
+    },
+    "analytics": {
+      "title": "분석",
+      "url": "/analytics",
+      "viewports": {
+        "desktop-xl": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1920x1080",
+          "screenshot": "screenshots/analytics-desktop-xl-final.png"
+        },
+        "desktop": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1280x800",
+          "screenshot": "screenshots/analytics-desktop-final.png"
+        },
+        "tablet": {
+          "status": 200,
+          "success": true,
+          "category": "Tablet",
+          "resolution": "768x1024",
+          "screenshot": "screenshots/analytics-tablet-final.png"
+        },
+        "mobile": {
+          "status": 200,
+          "success": true,
+          "category": "Mobile",
+          "resolution": "375x812",
+          "screenshot": "screenshots/analytics-mobile-final.png"
+        }
+      }
+    },
+    "budget": {
+      "title": "예산",
+      "url": "/budget",
+      "viewports": {
+        "desktop-xl": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1920x1080",
+          "screenshot": "screenshots/budget-desktop-xl-final.png"
+        },
+        "desktop": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1280x800",
+          "screenshot": "screenshots/budget-desktop-final.png"
+        },
+        "tablet": {
+          "status": 200,
+          "success": true,
+          "category": "Tablet",
+          "resolution": "768x1024",
+          "screenshot": "screenshots/budget-tablet-final.png"
+        },
+        "mobile": {
+          "status": 200,
+          "success": true,
+          "category": "Mobile",
+          "resolution": "375x812",
+          "screenshot": "screenshots/budget-mobile-final.png"
+        }
+      }
+    },
+    "reports": {
+      "title": "리포트",
+      "url": "/reports",
+      "viewports": {
+        "desktop-xl": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1920x1080",
+          "screenshot": "screenshots/reports-desktop-xl-final.png"
+        },
+        "desktop": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1280x800",
+          "screenshot": "screenshots/reports-desktop-final.png"
+        },
+        "tablet": {
+          "status": 200,
+          "success": true,
+          "category": "Tablet",
+          "resolution": "768x1024",
+          "screenshot": "screenshots/reports-tablet-final.png"
+        },
+        "mobile": {
+          "status": 200,
+          "success": true,
+          "category": "Mobile",
+          "resolution": "375x812",
+          "screenshot": "screenshots/reports-mobile-final.png"
+        }
+      }
+    },
+    "settings": {
+      "title": "설정",
+      "url": "/settings",
+      "viewports": {
+        "desktop-xl": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1920x1080",
+          "screenshot": "screenshots/settings-desktop-xl-final.png"
+        },
+        "desktop": {
+          "status": 200,
+          "success": true,
+          "category": "Desktop",
+          "resolution": "1280x800",
+          "screenshot": "screenshots/settings-desktop-final.png"
+        },
+        "tablet": {
+          "status": 200,
+          "success": true,
+          "category": "Tablet",
+          "resolution": "768x1024",
+          "screenshot": "screenshots/settings-tablet-final.png"
+        },
+        "mobile": {
+          "status": 200,
+          "success": true,
+          "category": "Mobile",
+          "resolution": "375x812",
+          "screenshot": "screenshots/settings-mobile-final.png"
+        }
+      }
+    }
+  },
+  "summary": {
+    "totalPages": 6,
+    "totalViewports": 4,
+    "totalTests": 24,
+    "passed": 24,
+    "failed": 0
+  }
+}

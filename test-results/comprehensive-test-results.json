@@ -1,0 +1,72 @@
+{
+  "timestamp": "2025-09-18T08:56:43.891Z",
+  "tests": [
+    {
+      "name": "초기 페이지 로드",
+      "status": "completed",
+      "screenshot": "01-initial-load.png"
+    },
+    {
+      "name": "로그인 기능",
+      "status": "completed",
+      "screenshots": [
+        "02-login-filled.png",
+        "03-after-login.png"
+      ]
+    },
+    {
+      "name": "대시보드 - 예산 버튼",
+      "status": "completed",
+      "screenshots": [
+        "04-dashboard.png",
+        "05-budget-button-clicked.png"
+      ]
+    },
+    {
+      "name": "거래 추가",
+      "status": "completed",
+      "screenshots": [
+        "06-add-transaction-modal.png",
+        "07-transaction-form-filled.png",
+        "08-category-added.png",
+        "09-transaction-saved.png"
+      ]
+    },
+    {
+      "name": "실시간 업데이트",
+      "status": "completed",
+      "screenshots": [
+        "10-after-transaction-update.png"
+      ]
+    },
+    {
+      "name": "새로고침 후 데이터 유지",
+      "status": "completed",
+      "screenshots": [
+        "11-after-refresh.png"
+      ]
+    },
+    {
+      "name": "카테고리 생성 및 표시",
+      "status": "completed",
+      "screenshots": [
+        "12-transactions-page.png",
+        "13-new-category-added.png",
+        "14-second-transaction-saved.png",
+        "15-category-autocomplete.png"
+      ]
+    }
+  ],
+  "consoleErrors": [
+    "Failed to load resource: the server responded with a status of 400 ()"
+  ],
+  "networkErrors": [
+    "400 - https://laumguwzpjirbuldfozz.supabase.co/auth/v1/token?grant_type=password"
+  ],
+  "issues": [
+    "첫 예산 설정하기 버튼을 찾을 수 없음",
+    "거래 추가 버튼을 찾을 수 없음",
+    "실시간 업데이트 안됨 - 새로운 거래가 바로 표시되지 않음",
+    "페이지 새로고침 후 데이터 유실 - 추가한 거래가 사라짐"
+  ]
+}

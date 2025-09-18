@@ -19,7 +19,8 @@ async function takeScreenshots() {
       { url: '/transactions', name: 'transactions' },
       { url: '/analytics', name: 'analytics' },
       { url: '/budget', name: 'budget' },
-      { url: '/reports', name: 'reports' }
+      { url: '/reports', name: 'reports' },
+      { url: '/settings', name: 'settings' }
     ];
     
     // Take desktop screenshots

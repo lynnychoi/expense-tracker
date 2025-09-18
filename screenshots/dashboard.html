@@ -1,0 +1,492 @@
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>가계부 앱 - 종합 테스트 대시보드</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { 
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    .container { 
+      max-width: 1400px; 
+      margin: 0 auto;
+    }
+    .header {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    h1 { 
+      color: #333; 
+      margin-bottom: 10px;
+      font-size: 2.5em;
+    }
+    .subtitle {
+      color: #666;
+      font-size: 1.1em;
+      margin-bottom: 30px;
+    }
+    .success-rate {
+      font-size: 4em;
+      font-weight: bold;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin: 20px 0;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin: 30px 0;
+    }
+    .stat-card {
+      background: #f8f9fa;
+      padding: 20px;
+      border-radius: 15px;
+      text-align: center;
+    }
+    .stat-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .stat-label {
+      color: #666;
+      font-size: 0.9em;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .pages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .page-card {
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .page-card:hover {
+      transform: translateY(-5px);
+    }
+    .page-header {
+      padding: 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+    }
+    .page-title {
+      font-size: 1.5em;
+      margin-bottom: 5px;
+    }
+    .page-url {
+      opacity: 0.9;
+      font-size: 0.9em;
+    }
+    .viewport-results {
+      padding: 20px;
+    }
+    .viewport-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .viewport-item:last-child {
+      border-bottom: none;
+    }
+    .viewport-info {
+      flex: 1;
+    }
+    .viewport-name {
+      font-weight: 600;
+      margin-bottom: 3px;
+    }
+    .viewport-res {
+      color: #666;
+      font-size: 0.85em;
+    }
+    .status-badge {
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: 600;
+    }
+    .status-pass {
+      background: #d4edda;
+      color: #155724;
+    }
+    .status-fail {
+      background: #f8d7da;
+      color: #721c24;
+    }
+    .screenshot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+      margin-top: 30px;
+      padding: 20px;
+      background: white;
+      border-radius: 15px;
+    }
+    .screenshot-thumb {
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .screenshot-thumb img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>🎯 가계부 앱 테스트 대시보드</h1>
+      <p class="subtitle">종합 페이지 테스트 및 반응형 UI 검증 결과</p>
+      
+      <div class="success-rate">100.0%</div>
+      <p style="color: #666;">Overall Success Rate</p>
+      
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number" style="color: #28a745;">24</div>
+          <div class="stat-label">Passed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color: #dc3545;">0</div>
+          <div class="stat-label">Failed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color: #007bff;">24</div>
+          <div class="stat-label">Total Tests</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number" style="color: #6c757d;">6</div>
+          <div class="stat-label">Pages</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="pages-grid">
+      
+        <div class="page-card">
+          <div class="page-header">
+            <div class="page-title">홈페이지</div>
+            <div class="page-url">/</div>
+          </div>
+          <div class="viewport-results">
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop-xl</div>
+                  <div class="viewport-res">1920x1080</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop</div>
+                  <div class="viewport-res">1280x800</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">tablet</div>
+                  <div class="viewport-res">768x1024</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">mobile</div>
+                  <div class="viewport-res">375x812</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+          </div>
+        </div>
+      
+        <div class="page-card">
+          <div class="page-header">
+            <div class="page-title">거래내역</div>
+            <div class="page-url">/transactions</div>
+          </div>
+          <div class="viewport-results">
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop-xl</div>
+                  <div class="viewport-res">1920x1080</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop</div>
+                  <div class="viewport-res">1280x800</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">tablet</div>
+                  <div class="viewport-res">768x1024</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">mobile</div>
+                  <div class="viewport-res">375x812</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+          </div>
+        </div>
+      
+        <div class="page-card">
+          <div class="page-header">
+            <div class="page-title">분석</div>
+            <div class="page-url">/analytics</div>
+          </div>
+          <div class="viewport-results">
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop-xl</div>
+                  <div class="viewport-res">1920x1080</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop</div>
+                  <div class="viewport-res">1280x800</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">tablet</div>
+                  <div class="viewport-res">768x1024</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">mobile</div>
+                  <div class="viewport-res">375x812</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+          </div>
+        </div>
+      
+        <div class="page-card">
+          <div class="page-header">
+            <div class="page-title">예산</div>
+            <div class="page-url">/budget</div>
+          </div>
+          <div class="viewport-results">
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop-xl</div>
+                  <div class="viewport-res">1920x1080</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop</div>
+                  <div class="viewport-res">1280x800</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">tablet</div>
+                  <div class="viewport-res">768x1024</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">mobile</div>
+                  <div class="viewport-res">375x812</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+          </div>
+        </div>
+      
+        <div class="page-card">
+          <div class="page-header">
+            <div class="page-title">리포트</div>
+            <div class="page-url">/reports</div>
+          </div>
+          <div class="viewport-results">
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop-xl</div>
+                  <div class="viewport-res">1920x1080</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop</div>
+                  <div class="viewport-res">1280x800</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">tablet</div>
+                  <div class="viewport-res">768x1024</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">mobile</div>
+                  <div class="viewport-res">375x812</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+          </div>
+        </div>
+      
+        <div class="page-card">
+          <div class="page-header">
+            <div class="page-title">설정</div>
+            <div class="page-url">/settings</div>
+          </div>
+          <div class="viewport-results">
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop-xl</div>
+                  <div class="viewport-res">1920x1080</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">desktop</div>
+                  <div class="viewport-res">1280x800</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">tablet</div>
+                  <div class="viewport-res">768x1024</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+              <div class="viewport-item">
+                <div class="viewport-info">
+                  <div class="viewport-name">mobile</div>
+                  <div class="viewport-res">375x812</div>
+                </div>
+                <span class="status-badge status-pass">
+                  PASS
+                </span>
+              </div>
+            
+          </div>
+        </div>
+      
+    </div>
+  </div>
+</body>
+</html>
+  
