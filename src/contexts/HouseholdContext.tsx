@@ -72,7 +72,7 @@ export function HouseholdProvider({ children }: { children: React.ReactNode }) {
         return
       }
 
-      const householdsData = data.map(item => item.household).filter(Boolean)
+      const householdsData = data.map(item => item.household).filter(Boolean) as unknown as Household[]
       setHouseholds(householdsData)
 
       // Set current household if none selected

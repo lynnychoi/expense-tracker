@@ -8,7 +8,7 @@ export async function getTransactions(
   householdId: string,
   filter?: TransactionFilter
 ): Promise<Transaction[]> {
-  const supabase = createClient()
+  const supabase = await createClient()
   
   let query = supabase
     .from('transactions')
@@ -70,7 +70,7 @@ export async function getMonthlyTotals(
   householdId: string,
   year?: number
 ): Promise<MonthlyTotal[]> {
-  const supabase = createClient()
+  const supabase = await createClient()
   
   const currentYear = year || new Date().getFullYear()
   const startDate = `${currentYear}-01-01`
@@ -123,7 +123,7 @@ export async function getCategoryTotals(
   startDate?: string,
   endDate?: string
 ): Promise<CategoryTotal[]> {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   let query = supabase
     .from('transactions')
@@ -175,7 +175,7 @@ export async function getCategoryTotals(
  * Get tag colors for a household
  */
 export async function getTagColors(householdId: string) {
-  const supabase = createClient()
+  const supabase = await createClient()
   
   const { data, error } = await supabase
     .from('tag_colors')
@@ -194,7 +194,7 @@ export async function getTagColors(householdId: string) {
  * Get budget goals for a household
  */
 export async function getBudgetGoals(householdId: string) {
-  const supabase = createClient()
+  const supabase = await createClient()
   
   const { data, error } = await supabase
     .from('budget_goals')
@@ -216,7 +216,7 @@ export async function getBudgetGoals(householdId: string) {
  * Get current month's spending by tag for budget tracking
  */
 export async function getCurrentMonthSpendingByTag(householdId: string) {
-  const supabase = createClient()
+  const supabase = await createClient()
   
   const now = new Date()
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString().split('T')[0]

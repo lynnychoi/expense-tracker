@@ -24,6 +24,8 @@ export function DuplicateWarning({
   if (matches.length === 0) return null
 
   const topMatch = matches[0]
+  if (!topMatch) return null
+  
   const confidence = Math.round(topMatch.similarity * 100)
   
   // Determine alert variant based on confidence

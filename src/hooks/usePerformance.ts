@@ -49,7 +49,7 @@ export function useThrottle<T extends (...args: any[]) => any>(
   callback: T,
   delay: number
 ): T {
-  const throttledCallback = useRef<T>()
+  const throttledCallback = useRef<T | undefined>(undefined)
   const lastCall = useRef<number>(0)
 
   throttledCallback.current = useCallback(
@@ -63,7 +63,7 @@ export function useThrottle<T extends (...args: any[]) => any>(
     [callback, delay]
   ) as T
 
-  return throttledCallback.current
+  return throttledCallback.current!
 }
 
 // Hook for measuring API call performance
@@ -113,6 +113,7 @@ export function useIntersectionObserver(
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        if (!entry) return
         const isVisible = entry.isIntersecting
         setIsIntersecting(isVisible)
         

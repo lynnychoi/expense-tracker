@@ -30,22 +30,22 @@ function calculateStringSimilarity(str1: string, str2: string): number {
 
   const matrix = Array(s2.length + 1).fill(null).map(() => Array(s1.length + 1).fill(null))
   
-  for (let i = 0; i <= s1.length; i++) matrix[0][i] = i
-  for (let j = 0; j <= s2.length; j++) matrix[j][0] = j
+  for (let i = 0; i <= s1.length; i++) matrix[0]![i] = i
+  for (let j = 0; j <= s2.length; j++) matrix[j]![0] = j
   
   for (let j = 1; j <= s2.length; j++) {
     for (let i = 1; i <= s1.length; i++) {
       const cost = s1[i - 1] === s2[j - 1] ? 0 : 1
-      matrix[j][i] = Math.min(
-        matrix[j - 1][i] + 1,     // deletion
-        matrix[j][i - 1] + 1,     // insertion
-        matrix[j - 1][i - 1] + cost // substitution
+      matrix[j]![i] = Math.min(
+        matrix[j - 1]![i]! + 1,     // deletion
+        matrix[j]![i - 1]! + 1,     // insertion
+        matrix[j - 1]![i - 1]! + cost // substitution
       )
     }
   }
   
   const maxLength = Math.max(s1.length, s2.length)
-  return 1 - (matrix[s2.length][s1.length] / maxLength)
+  return 1 - (matrix[s2.length]![s1.length]! / maxLength)
 }
 
 // Calculate date difference in days
@@ -215,14 +215,14 @@ export function hasLikelyDuplicate(
     descriptionThreshold: 0.8 // Higher threshold
   })
   
-  return matches.length > 0 && matches[0].similarity > 0.8
+  return matches.length > 0 && matches[0]!.similarity > 0.8
 }
 
 // Get duplicate warning message
 export function getDuplicateWarning(matches: DuplicateMatch[]): string {
   if (matches.length === 0) return ''
   
-  const topMatch = matches[0]
+  const topMatch = matches[0]!
   const confidence = Math.round(topMatch.similarity * 100)
   
   return `${confidence}% 확률로 중복 거래일 수 있습니다. ${topMatch.reasons.join(', ')}`

@@ -28,7 +28,7 @@ export function TransactionList({ transactions, className }: TransactionListProp
     if (personType === 'household') return '가구 공통'
     if (personId) {
       const member = householdMembers.find(m => m.user_id === personId)
-      return member?.user.name || '알 수 없음'
+      return member?.user?.name || '알 수 없음'
     }
     return '알 수 없음'
   }

@@ -174,7 +174,7 @@ export function useBackgroundSync() {
 
     try {
       const registration = await navigator.serviceWorker.ready
-      await registration.sync.register(tag)
+      await (registration as any).sync?.register(tag)
       return true
     } catch (error) {
       console.error('Background sync registration failed:', error)

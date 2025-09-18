@@ -70,9 +70,9 @@ export function AddTransactionModal({ children, onTransactionAdded }: AddTransac
       type,
       amount: amountNum,
       description,
-      date: date.toISOString().split('T')[0],
+      date: (date?.toISOString().split('T')[0] || new Date().toISOString().split('T')[0]) as string,
       person_type: personType,
-      person_id: personType === 'household' ? null : personId,
+      person_id: personType === 'household' ? undefined : personId,
       payment_method: paymentMethod,
       household_id: currentHousehold.id,
       created_by: user?.id || '',
@@ -115,7 +115,7 @@ export function AddTransactionModal({ children, onTransactionAdded }: AddTransac
         type,
         amount: amountNum,
         description,
-        date: date.toISOString().split('T')[0],
+        date: (date?.toISOString().split('T')[0] || new Date().toISOString().split('T')[0]) as string,
         person_type: personType,
         person_id: personType === 'household' ? undefined : personId,
         payment_method: paymentMethod,
@@ -300,7 +300,7 @@ export function AddTransactionModal({ children, onTransactionAdded }: AddTransac
                 <SelectContent>
                   {householdMembers.map((member) => (
                     <SelectItem key={member.user_id} value={member.user_id}>
-                      {member.user.name}
+                      {member.user?.name || 'Unknown User'}
                     </SelectItem>
                   ))}
                 </SelectContent>

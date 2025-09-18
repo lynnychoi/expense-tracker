@@ -315,7 +315,7 @@ export function TransactionSearch({ onResultsChange, className }: TransactionSea
                     <SelectItem value="">전체</SelectItem>
                     {householdMembers.map((member) => (
                       <SelectItem key={member.user_id} value={member.user_id}>
-                        {member.user.name}
+                        {member.user?.name || 'Unknown User'}
                       </SelectItem>
                     ))}
                   </SelectContent>

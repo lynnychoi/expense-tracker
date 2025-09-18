@@ -5,7 +5,7 @@ import { DEFAULT_KOREAN_TAGS } from '@/types'
  * Create default Korean household tags for a new household
  */
 export async function createDefaultTagsForHousehold(householdId: string) {
-  const supabase = createClient()
+  const supabase = await createClient()
   
   const defaultTags = [
     ...DEFAULT_KOREAN_TAGS.EXPENSE,
@@ -35,7 +35,7 @@ export async function createDefaultTagsForHousehold(householdId: string) {
  * Create sample transaction data for a new household
  */
 export async function createSampleDataForHousehold(householdId: string, userId: string) {
-  const supabase = createClient()
+  const supabase = await createClient()
 
   // Sample transactions
   const sampleTransactions = [
