@@ -164,6 +164,14 @@
     border: 0;
   }
   
+  /* Background pattern utilities */
+  .bg-grid-pattern {
+    background-image: 
+      linear-gradient(to right, hsl(var(--border)) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border)) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
   /* Animation utilities */
   .animate-slide-in-from-left {
     animation: slideInFromLeft 0.3s ease-out;
