@@ -1,8 +1,13 @@
 import OpenAI from 'openai'
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY!,
-})
+function getOpenAIClient(): OpenAI | null {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) {
+    console.warn('OpenAI API key not found, falling back to simple suggestions')
+    return null
+  }
+  return new OpenAI({ apiKey })
+}
 
 /**
  * Generate tag suggestions for a transaction description
@@ -25,6 +30,12 @@ export async function suggestTags(
   ]
 
   const allTags = [...new Set([...koreanTags, ...existingTags])]
+
+  const openai = getOpenAIClient()
+  if (!openai) {
+    // Fallback to simple keyword matching if OpenAI is not available
+    return getSimpleTagSuggestions(description, allTags)
+  }
 
   try {
     const response = await openai.chat.completions.create({
@@ -80,6 +91,12 @@ export async function generateFinancialInsights(
 ): Promise<string[]> {
   if (monthlyData.length === 0 && categoryData.length === 0) {
     return []
+  }
+
+  const openai = getOpenAIClient()
+  if (!openai) {
+    // Fallback to simple insights if OpenAI is not available
+    return getSimpleFinancialInsights(monthlyData, categoryData)
   }
 
   try {
